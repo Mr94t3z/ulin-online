@@ -8,6 +8,21 @@ use App\Category;
 
 class BlogController extends Controller
 {
+    public function index(Posts $posts)
+    {
+        $data = $posts->latest()->take(8)->get();
+        return view('blog', compact('data'));
+    }
+    public function cari(request $request)
+    {
+        $category_widget = Category::all();
+
+        $data = Posts::where('judul', $request->cari)->orWhere('judul', 'like', '%' . $request->cari . '%')->paginate(6);
+        return view('blog.#services');
+    }
+}
+/*class BlogController extends Controller
+{
     public function index(Posts $posts){
         $category_widget = Category::all();
 
@@ -37,10 +52,5 @@ class BlogController extends Controller
         return view('blog.list_post', compact('data','category_widget'));
     }
 
-    public function cari(request $request){
-        $category_widget = Category::all();
-
-        $data = Posts::where('judul', $request->cari)->orWhere('judul','like','%'.$request->cari.'%')->paginate(6);
-        return view('blog.list_post', compact('data','category_widget'));
-    }
 }
+*/

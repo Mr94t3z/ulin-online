@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Posts;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data = Posts::orderBy('created_at', 'desc')->paginate(8);
+        return view('home', compact('data'));
     }
+    /*public function user()
+    {
+        return redirect('home')->route('users', ['tipe' => 0]);
+    }
+    */
 }

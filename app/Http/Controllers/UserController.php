@@ -42,22 +42,20 @@ class UserController extends Controller
             'tipe' => 'required'
         ]);
 
-        if($request->input('password')) {
+        if ($request->input('password')) {
             $password = bcrypt($request->password);
-        }
-        else
-        {
+        } else {
             $password = bcrypt('1234');
         }
 
         User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'tipe' => $request->tipe,
-                'password' => $password
-        ]);       
+            'name' => $request->name,
+            'email' => $request->email,
+            'tipe' => $request->tipe,
+            'password' => $password
+        ]);
 
-        return redirect()->back()->with('success','User Berhasil Disimpan');
+        return redirect()->back()->with('success', 'User Berhasil Disimpan');
     }
 
     /**
@@ -92,31 +90,28 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $this->validate($request, [
+        $this->validate($request, [
             'name' => 'required|min:3|max:100',
             'tipe' => 'required'
-          ]);
+        ]);
 
-         if($request->input('password')) {
+        if ($request->input('password')) {
             $user_data = [
                 'name' => $request->name,
                 'tipe' => $request->tipe,
                 'password' => bcrypt($request->password)
-                ];
-         }
-         else{
+            ];
+        } else {
             $user_data = [
                 'name' => $request->name,
                 'tipe' => $request->tipe
-                ];
-         }
+            ];
+        }
 
-         $user = User::find($id);
-         $user->update($user_data);
+        $user = User::find($id);
+        $user->update($user_data);
 
-         return redirect()->route('user.index')->with('success','berhasil diupdate');
-
-         
+        return redirect()->route('user.index')->with('success', 'berhasil diupdate');
     }
 
     /**
@@ -130,6 +125,6 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect()->back()->with('success','Berhasil Cuy dihapus');
+        return redirect()->back()->with('success', 'Berhasil dihapus!');
     }
 }
